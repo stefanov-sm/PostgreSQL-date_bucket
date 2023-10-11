@@ -1,11 +1,11 @@
--- Without SQLi protection
+-- Without protection. An advanced SQLi attack may succeed in certain circumstances
 create or replace function date_bucket(dpart text, dpart_count integer, ts timestamptz, origin timestamptz default 'epoch')
 returns timestamptz language sql immutable as
 $body$
     select date_bin(('1 '||dpart)::interval * dpart_count, ts, origin);
 $body$;
 
--- With SQLi protection, slower
+-- With protection, slower
 create or replace function date_bucket(dpart text, dpart_count integer, ts timestamptz, origin timestamptz default 'epoch')
 returns timestamptz language plpgsql immutable as
 $body$
